@@ -1,7 +1,7 @@
 let store = {
     user: { name: "Student" },
     apod: '',
-    rovers: ['Curiosity', 'Opportunity', 'Spirit'],
+    rovers: [],
 }
 
 // add our markup to the page
@@ -16,27 +16,17 @@ const render = async (root, state) => {
     root.innerHTML = App(state)
 }
 
-
 // create content
 const App = (state) => {
-    let { rovers, apod } = state
+    let { rovers } = state
 
     return `
         <header></header>
         <main>
             ${Greeting(store.user.name)}
             <section>
-                <h3>Put things on the page!</h3>
-                <p>Here is an example section.</p>
-                <p>
-                    One of the most popular websites at NASA is the Astronomy Picture of the Day. In fact, this website is one of
-                    the most popular websites across all federal agencies. It has the popular appeal of a Justin Bieber video.
-                    This endpoint structures the APOD imagery and associated metadata so that it can be repurposed for other
-                    applications. In addition, if the concept_tags parameter is set to True, then keywords derived from the image
-                    explanation are returned. These keywords could be used as auto-generated hashtags for twitter or instagram feeds;
-                    but generally help with discoverability of relevant imagery.
-                </p>
-                ${ImageOfTheDay(apod)}
+                <ul class="rovers">
+                </ul>
             </section>
         </main>
         <footer></footer>
@@ -45,10 +35,20 @@ const App = (state) => {
 
 // listening for load event because page should load before any JS is called
 window.addEventListener('load', () => {
-    render(root, store)
+    getRoversList();
 })
 
 // ------------------------------------------------------  COMPONENTS
+
+const getRoversList = async () => {
+    try {
+        const result = await fetch('/rovers');
+        const rovers = await result.json();
+        console.log(rovers);
+    } catch (error) {
+        console.error(error);
+    }
+}
 
 // Pure function that renders conditional information -- THIS IS JUST AN EXAMPLE, you can delete it.
 const Greeting = (name) => {
