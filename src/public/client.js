@@ -1,7 +1,6 @@
 let store = {
     user: { name: "Student" },
-    apod: '',
-    rovers: [],
+    rovers: Immutable.List([]),
 }
 
 // add our markup to the page
@@ -21,21 +20,35 @@ const App = (state) => {
     let { rovers } = state
 
     return `
-        <header></header>
+        <header>
+        ${Greeting(store.user.name)}
+        </header>
         <main>
-            ${Greeting(store.user.name)}
-            <section>
                 <ul class="rovers">
+                    ${store.rovers
+            .map(
+                (rover) =>
+                    `<li class="rover">${rover.name}
+                    ${rover.status}
+                    </li>
+                    `
+            )
+            .join("")}
                 </ul>
-            </section>
         </main>
-        <footer></footer>
+        <footer>
+                <span>Footer</span>
+        </footer>
     `
 }
 
 // listening for load event because page should load before any JS is called
-window.addEventListener('load', () => {
-    getRoversList();
+window.addEventListener('load', async () => {
+    console.log(store);
+    const rovers = await getRoversList();
+    updateStore(store, { rovers });
+    console.log(rovers);
+    console.log(store);
 })
 
 // ------------------------------------------------------  COMPONENTS
@@ -44,7 +57,7 @@ const getRoversList = async () => {
     try {
         const result = await fetch('/rovers');
         const rovers = await result.json();
-        console.log(rovers);
+        return rovers;
     } catch (error) {
         console.error(error);
     }

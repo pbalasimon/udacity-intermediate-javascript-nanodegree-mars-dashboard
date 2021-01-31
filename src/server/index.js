@@ -17,9 +17,17 @@ app.use('/', express.static(path.join(__dirname, '../public')))
 app.get('/rovers', async (req, res) => {
     try {
         const data = await fetch('https://api.nasa.gov/mars-photos/api/v1/rovers?api_key=g32scjwwWzUmWGQJwblAeqbydGTU6uU1kBJ1IXG5');
-        const rovers = await data.json();
-        res.send(rovers);
+        let rovers = await data.json();
+        rovers = rovers.rovers.map(rover => {
+            return {
+                name: rover.name,
+                landing_date: rover.landing_date,
+                launch_date: rover.launch_date,
+                status: rover.status
+            }
+        });
         console.log(rovers);
+        res.send(rovers);
     } catch (error) {
         console.error(error);
     }
