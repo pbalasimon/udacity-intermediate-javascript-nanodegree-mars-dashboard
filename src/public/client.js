@@ -24,17 +24,25 @@ const App = (state) => {
         ${Greeting(store.user.name)}
         </header>
         <main>
-                <ul class="rovers">
+                <section class="rovers">
                     ${store.rovers
             .map(
                 (rover) =>
-                    `<li class="rover">${rover.name}
-                    ${rover.status}
-                    </li>
+                    `<div class="rover">
+                    <img src="assets/images/${rover.name.toLowerCase()}.jpg" class="rover-image" alt="${rover.name}">
+                    <div class="rover-body">
+                        <h3>
+                        ${rover.name}
+                        </h3>
+                        <p>
+                        Status: ${rover.status}
+                        </p>
+                    </div>
+                    </div>
                     `
             )
             .join("")}
-                </ul>
+                </section>
         </main>
         <footer>
                 <span>Footer</span>
