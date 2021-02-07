@@ -28,7 +28,7 @@ const App = (state) => {
                     ${store.rovers
             .map(
                 (rover) =>
-                    `<div class="rover">
+                    `<div onclick="handleRoverDetail('${rover.name.toLowerCase()}')" class="rover">
                     <img src="assets/images/${rover.name.toLowerCase()}.jpg" class="rover-image" alt="${rover.name}">
                     <div class="rover-body">
                         <h3>
@@ -45,7 +45,9 @@ const App = (state) => {
                 </section>
         </main>
         <footer>
-                <span>Footer</span>
+                <span>
+                Intermediate JavaScript Nanodegree Program - Mars Dashboard Project
+                </span>
         </footer>
     `
 }
@@ -61,6 +63,10 @@ window.addEventListener('load', async () => {
 
 // ------------------------------------------------------  COMPONENTS
 
+const handleRoverDetail = (rover) => {
+    console.log("Rover detail!", rover);
+}
+
 const getRoversList = async () => {
     try {
         const result = await fetch('/rovers');
@@ -75,7 +81,8 @@ const getRoversList = async () => {
 const Greeting = (name) => {
     if (name) {
         return `
-            <h1>Welcome, ${name}!</h1>
+        <h1>Mars Dashboard</h1>
+        <h2>Welcome, ${name}!</h2>
         `
     }
 

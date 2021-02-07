@@ -11,9 +11,11 @@ header {
   grid-area: header;
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
-  box-shadow: 0 1px 20px 0 rgb(46 61 73 / 20%);
+  background-color: white;
+  border-bottom: solid 1px #dbe2e8;
+  padding: 0 2em;
 }
 
 #root {
@@ -28,6 +30,7 @@ header {
 }
 
 main {
+  background-color: #fafbfc;
   grid-area: main;
 }
 
@@ -44,9 +47,13 @@ main {
 .rover {
   box-shadow: 2px 4px 8px 0 rgb(46 61 73 / 20%);
   border-radius: 5px;
-  flex-basis: 45%;
+  flex-basis: 430px;
   margin: 0px 0 2em 0;
   cursor: pointer;
+}
+
+.rover:hover {
+  box-shadow: 2px 4px 8px 0 rgb(46 61 73 / 60%);
 }
 
 .rover-image {
@@ -63,6 +70,7 @@ main {
 }
 
 .rover-body > h3 {
+  color: #145e7f;
   margin-bottom: 0.5em;
 }
 
@@ -73,7 +81,8 @@ footer {
   justify-content: center;
   align-items: center;
   width: 100%;
-  background-image: linear-gradient(to bottom right, #f7f7f7, #eafbff);
+  background-color: white;
+  border-top: solid 1px #dbe2e8;
 }
 
 /* -------------------  TABLET  --------------------- */
