@@ -1,6 +1,8 @@
 let store = {
-    user: { name: "Student" },
+    user: Immutable.Map({ name: "Student" }),
     rovers: Immutable.List([]),
+    roverDetail: Immutable.Map(),
+    photos: Immutable.List([]),
 }
 
 // add our markup to the page
@@ -21,7 +23,7 @@ const App = (state) => {
 
     return `
         <header>
-        ${Greeting(store.user.name)}
+        ${Greeting(store.user.get("name"))}
         </header>
         <main>
                 <section class="rovers">
@@ -43,6 +45,9 @@ const App = (state) => {
             )
             .join("")}
                 </section>
+                 <section class="rover-detail">
+                 ${roverDetail()}
+        </section>
         </main>
         <footer>
                 <span>
@@ -63,8 +68,43 @@ window.addEventListener('load', async () => {
 
 // ------------------------------------------------------  COMPONENTS
 
-const handleRoverDetail = (rover) => {
-    console.log("Rover detail!", rover);
+const handleRoverDetail = async (rover) => {
+    try {
+        const result = await fetch(`rovers/${rover}`);
+        const photos = await result.json();
+        updateStore(store, { photos: photos.latest_photos });
+        updateStore(store, { roverDetail: photos.latest_photos.length > 0 ? photos.latest_photos[0].rover : null });
+        console.log(photos);
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+const roverDetail = () => {
+    if (store.roverDetail.id) {
+        return `
+
+        <p><span>Rover: </span>${store.roverDetail.name}</p>
+    <p><span>Launch date: </span>${store.roverDetail.launch_date}</p>
+				<p><span>Landing date:</span> ${store.roverDetail.landing_date}</p>
+                <p><span>Status: </span>${store.roverDetail.status}</p>
+                <p><span>Number of photos:</span> ${store.photos.length}</p>
+
+                <div>
+                 ${store.photos
+                .map(
+                    (photo) =>
+                        `
+                    <img src="${photo.img_src}"/><p>${photo.earth_date}</p>
+                    `
+                )
+                .join("")}
+                </div>
+
+    `;
+    } else {
+        return ``;
+    }
 }
 
 const getRoversList = async () => {
