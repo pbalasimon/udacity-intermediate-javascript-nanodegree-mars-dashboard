@@ -47,11 +47,7 @@ const App = (state) => {
                  ${roverDetail()}
         </section>
         </main>
-        <footer>
-                <span>
-                Intermediate JavaScript Nanodegree Program - Mars Dashboard Project
-                </span>
-        </footer>
+        ${Footer()}
     `
 }
 
@@ -123,4 +119,14 @@ const Greeting = (name) => {
     return `
         <h1>Hello!</h1>
     `
+}
+
+const Footer = () => {
+    return `
+        <footer>
+                <span>
+                Intermediate JavaScript Nanodegree Program - Mars Dashboard Project
+                </span>
+        </footer>
+    `;
 }
